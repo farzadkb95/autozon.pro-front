@@ -1,0 +1,527 @@
+<!-- <?= View('templates/account-menus', ['active' => 'settings']) ?> -->
+<?= View('templates/components/a-header', ['active' => 'settings']) ?>
+
+<?php
+$subcriptionActive = $loginUser->p_sub_id;
+;
+$credit = 0;
+$availableCredit = 0;
+$companyname = $loginUser->p_user_company_name;
+$companyaddress = $loginUser->p_user_address;
+
+$companycity = $loginUser->p_user_city;
+
+$companycountry = $loginUser->p_user_country;
+
+
+
+$findSub = \App\Models\SubscriptionModel::find($subcriptionActive);
+if ($loginUser->p_validity >= date('Y-m-d') && $findSub->count() > 0) {
+    $credit = $findSub->subs_quantity;
+    $availableCredit = $loginUser->p_credit;
+}
+?>
+<div class="container">
+
+    <div class="row g-3">
+        <div class="row g-3">
+
+            <div class="col-md-12">
+                <section class="shadow-boxer. mycp-page mycp-page-preferences  p-4"
+                    style="    min-height: 150px !important">
+                    <div class="mycp-page-contract">
+                        <div class="mycp-user-box__item mycp-user-box__item--user">
+                            <?php if (!empty($findSub->image)): ?>
+                                <img style="margin-right: 6px" src="<?= $findSub->image ?>" alt="Subscription Image" />
+                            <?php endif; ?>
+                            <h5 class="mb-0 fw-bold">
+                                <?= esc($loginUser->p_user_name) ?>
+                            </h5>
+                            <span style="    color: #cfb421;" class="userinfo-subs"
+                                class="username-box__item username-box__item--username">
+                                <?= t($findSub->subs_name ?? '') ?>
+                            </span>
+
+                            </span> </span> </span> </span><span class="username-box__item username-box__item--stats">
+                                <span class="username-box__item username-box__item--score">629<svg width="22"
+                                        height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M9.81981 0.765294L7.13459 6.45365L1.12675 7.36877C0.0493653 7.53204 -0.38241 8.91975 0.398897 9.71458L4.74543 14.1398L3.7174 20.391C3.53235 21.5209 4.67141 22.3673 5.62543 21.8389L11 18.8873L16.3746 21.8389C17.3286 22.363 18.4677 21.5209 18.2826 20.391L17.2546 14.1398L21.6011 9.71458C22.3824 8.91975 21.9506 7.53204 20.8733 7.36877L14.8654 6.45365L12.1802 0.765294C11.6991 -0.248643 10.305 -0.261532 9.81981 0.765294Z"
+                                            fill="#000000"></path>
+                                    </svg></span> <span class="username-box__item username-box__item--percent">99%
+                                    positive qualifications<svg style="margin-left: 4px;" width="25" height="25"
+                                        viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M21.3389 3.66113C18.9779 1.30026 15.8389 0 12.5 0C9.16113 0 6.02211 1.30026 3.66113 3.66113C1.30026 6.02211 0 9.16113 0 12.5C0 15.8389 1.30026 18.9779 3.66113 21.3389C6.02211 23.6997 9.16113 25 12.5 25C15.8389 25 18.9779 23.6997 21.3389 21.3389C23.6997 18.9779 25 15.8389 25 12.5C25 9.16113 23.6997 6.02211 21.3389 3.66113ZM12.5 23.4536C6.46015 23.4536 1.54639 18.5398 1.54639 12.5C1.54639 6.46015 6.46015 1.54639 12.5 1.54639C18.5398 1.54639 23.4536 6.46015 23.4536 12.5C23.4536 18.5398 18.5398 23.4536 12.5 23.4536Z"
+                                            fill="#000000"></path>
+                                        <path
+                                            d="M16.4183 11.9323C17.4131 11.9323 18.2224 11.123 18.2224 10.1282C18.2224 9.13337 17.4131 8.32404 16.4183 8.32404C15.4235 8.32404 14.6141 9.13337 14.6141 10.1282C14.6141 11.123 15.4235 11.9323 16.4183 11.9323Z"
+                                            fill="#000000"></path>
+                                        <path
+                                            d="M8.58177 11.9323C9.57657 11.9323 10.3859 11.123 10.3859 10.1282C10.3859 9.13337 9.57657 8.32404 8.58177 8.32404C7.58698 8.32404 6.77765 9.13337 6.77765 10.1282C6.77765 11.123 7.58703 11.9323 8.58177 11.9323Z"
+                                            fill="#000000"></path>
+                                        <path
+                                            d="M12.5 18.299C10.0819 18.299 7.89435 16.7722 7.05652 14.4998L5.60559 15.0348C6.66647 17.9122 9.43714 19.8454 12.5 19.8454C15.5629 19.8454 18.3336 17.9122 19.3945 15.0348L17.9435 14.4998C17.1057 16.7722 14.9181 18.299 12.5 18.299Z"
+                                            fill="#000000"></path>
+                                    </svg></span> </span> </a>
+
+                            <button id="favBtn" class="fav-btn">
+                                <i class="icon fa fa-heart-o"></i> Add to Favorites
+                            </button>
+
+                            <style>
+                                .fav-btn {
+                                    position: absolute;
+                                    right: 13px;
+
+                                    background: none;
+                                    font-size: 14px;
+                                    border-radius: 6px;
+                                    border: 1px solid gray;
+                                    padding: 10px;
+                                }
+
+                                .fa-heart-o:before {
+                                    content: "❤️";
+                                }
+
+                                .fav-btn .fas {
+                                    margin-right: 5px;
+                                }
+
+                                .fav-btn.faved {
+                                    color: black;
+                                }
+
+                                .fav-btn.faved .fas {
+                                    color: black;
+                                }
+
+                                .flexes {
+                                    display: flex;
+                                    flex-direction: row;
+
+                                    width: 100%;
+
+                                }
+
+                                .flexfarzad {
+                                    margin: 10px;
+                                    flex: 1 0 33.33%;
+
+                                }
+
+                                .form-control {
+                                    display: block;
+
+                                    width: auto !important;
+                                }
+
+                                .address-card {
+                                    background: #fff;
+                                    box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+                                    border-radius: 5px;
+                                    padding: 15px;
+                                }
+
+                                .header {
+                                    border-bottom: 1px solid #eee;
+                                    margin-bottom: 10px;
+                                    padding-bottom: 5px;
+                                }
+
+                                .line {
+                                    display: flex;
+                                    align-items: center;
+                                    margin-bottom: 5px;
+                                }
+
+                                .line i {
+                                    width: auto;
+                                    color: #888;
+                                }
+
+                                .company-box__logo img {
+                                    width: 100%;
+                                    max-width: 160px;
+                                }
+
+                                .flexfarzad {
+                                    padding: 0;
+                                    margin: 5px;
+                                }
+ 
+.fkb_suma td {
+    padding: 8px 0;
+    border-right: 1px solid #D0D0D0;
+    border-bottom: 1px solid #D0D0D0;
+    text-align: center;
+    font-size: 16px;
+}
+.fkb_suma th {
+    border-bottom-width: 3px;
+    background-color: #F4FBFE!important;
+    padding: 8px 0;
+    border-right: 1px solid #D0D0D0;
+    border-bottom: 1px solid #D0D0D0;
+    text-align: center;
+    font-size: 16px;
+}
+.tab.active {
+    border-bottom-color: #FF5000;
+    font-weight: bold;
+}
+           
+                                @media (max-width: 768px) {
+                                    .flexfarzad:last-child {
+                                        flex-basis: 100%;
+                                    }
+                                }
+                            </style>
+
+                            <script>
+                                const favBtn = document.getElementById("favBtn");
+
+                                favBtn.addEventListener("click", () => {
+                                    favBtn.classList.toggle("faved");
+
+                                    if (favBtn.classList.contains("faved")) {
+                                        favBtn.innerText = "Favorite Seller";
+                                    } else {
+                                        favBtn.innerText = "Add to Favorites";
+                                    }
+                                });
+                            </script>
+                        </div>
+
+                </section>
+            </div>
+
+            <div class="col-md-12">
+                <section class="shadow-boxer. mycp-page mycp-page-preferences  p-4"
+                    style="    min-height: 150px !important">
+                    <div class="mycp-page-contract">
+                        <div class="mycp-user-box__item mycp-user-box__item--user">
+                            <div class="flexes">
+                                <div class="flexfarzad">
+                                    <div class="company-box__title" style="margin-bottom: 8px;  margin-top: 0px;">
+                                        <?php echo $companyname; ?>
+
+                                    </div>
+                                    <div class="company-box__logo">
+                                        <a href="#" title="Autozon">
+                                            <img src="https://autozon.pro/public/images/logo.png"
+                                                alt="Autozone pro -  Auto Online" style="    display: block  width: 160px;
+    height: 90px;
+    background-color: #F5F5F5;
+    box-shadow: 0 0 4px 0 #E0E0E0;
+    font-size: 12px; ">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="flexfarzad" style="margin-top: 0px;">
+
+                                    <div class=" ">
+
+                                        <div class="header">
+                                            <h3>
+                                                <?php echo $companyname; ?>
+                                            </h3>
+                                        </div>
+
+                                        <div class="details">
+
+                                            <div class="line">
+                                               
+                                                <span>
+                                                    <?php echo $companyaddress; ?>
+                                                </span>
+                                            </div>
+
+                                            <div class="line">
+                                                
+                                                <span>
+                                                    <?php echo $companycity; ?>
+                                                </span>
+                                            </div>
+                                            
+
+                                            <div class="line">
+                                                 <span>
+                                                    <?php echo $companycountry; ?>
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="flexfarzad">
+                                    <div class="col-md-6 d-flex align-items-center mt-3 mt-md-0">
+                                        <div class="text-muted flex-fill me-5 pe-lg-3" id="header-search">
+
+                                            <form action="shop" method="get" style="margin-top: 37%;">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="search" class="form-control rounded-pill  "
+                                                        placeholder="Search the store ads"
+                                                        style="border-radius: 8px !important;">
+                                                    <button style="margin-left: -50px;"
+                                                        class="btn bg-white border-0 shadow-0" type="submit"
+                                                        id="button-addon1"><i class="fal fa-search"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                </section>
+            </div>
+
+
+            <div class="col-md-12">
+                <section class="shadow-boxer. mycp-page mycp-page-preferences  p-4"
+                    style="    min-height: 400px !important">
+                    <div class="mycp-page-contract">
+                        <div class="tabs-container" style="border-bottom: 1px solid #D0D0D0;
+    text-align: center;
+    ">
+                            <div class="tabs">
+                                <div class="tab" onclick="openTab('tab1')">Qualifying Summary</div>
+                                <div class="tab" onclick="openTab('tab2')">Grades Received</div>
+                                <div class="tab" onclick="openTab('tab3')">Qualifications Granted</div>
+                            </div>
+                        </div>
+                        <div class="content-container">
+
+                            <div id="tab1" class="tab-content">
+                                          
+<div class=" pt-5 pb-100">
+    <div class="container">
+        <div class="mx-auto  style="max-width: 500px;">
+            <table class="table table-bordered w-100" style="    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    border-left: 1px solid #D0D0D0;
+    border-top: 1px solid #D0D0D0;
+    table-layout: fixed;
+    cursor: pointer;">
+                <thead>
+                    <tr class="fkb_suma" >
+                        <th><?= t("Ratings") ?></th>
+                        <th><?= t("30 days") ?></th>
+                        <th><?= t("6 months") ?></th>
+                        <th><?= t("12 months") ?></th>
+                        <th><?= t("All") ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="fkb_suma">
+                        <td><i class="fa-light fa-face-smile-beam fa-lg me-2" style="color: #00A040;"></i><?= t("Positive") ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 3, 30) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 3, 180) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 3, 365) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 3, 'all') ?></td>
+                    </tr>
+                    <tr class="fkb_suma">
+                        <td><i class="fa-light fa-face-meh fa-lg me-2" style="color: #606060;"> </i><?= t("Netural") ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 2, 30) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 2, 180) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 2, 365) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 2, 'all') ?></td>
+                    </tr>
+                    <tr class="fkb_suma">
+                        <td> <i class="fa-light fa-face-frown-slight fa-lg me-2" style="color: #D00000;"></i><?= t("Negative") ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 1, 30) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 1, 180) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 1, 365) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 1, 'all') ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>                          
+                            </div>
+                            <div id="tab2" class="tab-content">
+                                 
+<div class=" pt-5 pb-100">
+    <div class="container">
+        <div class="mx-auto" style="max-width: 500px;">
+            <table class="table table-bordered w-100">
+                <thead>
+                    <tr>
+                        <th><?= t("Ratings") ?></th>
+                        <th><?= t("30 days") ?></th>
+                        <th><?= t("6 months") ?></th>
+                        <th><?= t("12 months") ?></th>
+                        <th><?= t("All") ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fa-light fa-face-smile-beam fa-lg me-2" style="color: #00A040;"></i><?= t("Positive") ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 3, 30) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 3, 180) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 3, 365) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 3, 'all') ?></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa-light fa-face-meh fa-lg me-2" style="color: #606060;"> </i><?= t("Netural") ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 2, 30) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 2, 180) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 2, 365) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 2, 'all') ?></td>
+                    </tr>
+                    <tr>
+                        <td> <i class="fa-light fa-face-frown-slight fa-lg me-2" style="color: #D00000;"></i><?= t("Negative") ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 1, 30) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 1, 180) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 1, 365) ?></td>
+                        <td><?= \App\Models\RatingModel::countRatingByDurating($loginUser->p_user_id, 1, 'all') ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>                            </div>
+                            <div id="tab3" class="tab-content">
+                                <!-- Content for Qualifications Granted -->
+                                <?= View('templates/account-menus', ['active' => 'qualifying']) ?>
+
+<div class="container">
+
+    <div class="row g-3">
+        <div class="col-md-3">
+            <?= View('templates/sidebar-qualifying', ['active' => 'asBuyers']) ?>
+        </div>
+        <div class="col-md-9">
+            <section class="shadow-boxer. mycp-page mycp-page-preferences  p-4">
+
+                <h3 class="text-theme-color-1 mb-4 mt-1"><?= t("Ratings") ?></h3>
+
+                <div class="alert alert-warning" role="alert">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <?= t("Do not give grades before completing a transaction") ?>!
+                </div>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th><?= t("Ratings") ?></th>
+                            <th><?= t("Date") ?></th>
+                            <th><?= t("For the user") ?></th>
+                            <th><?= t("Rating") ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $records = \App\Models\OrderModel::join('rating', function ($join) {
+                            $join->on('order_id', '=', 'rating_order_id');
+                            $join->where('rating_type', '=', 'toSeller');
+                        })
+                            //->join('public_user', 'p_user_id', 'order_vendor_id')
+                            ->where('order_user_id', $loginUser->p_user_id)
+                            ->get();
+                        foreach ($records as $ob) {
+                        ?>
+                            <tr>
+                                <td>
+                                    <strong><?= t("I sold") ?> :</strong><br>
+                                    <?= t("Order no") ?>. <?= $ob->order_no ?>
+                                </td>
+                                <td><span data-moment="datetime"><?= $ob->order_created_at ?></span></td>
+                                <td>
+                                    <?= t("Buyer") ?> :<br>
+                                    <i class="fa fa-user"></i> <?= $ob->p_user_name ?>
+                                </td>
+                                <td>
+                                    <?= $arraydb::getValue('rating', $ob->rating_star) ?>
+                                </td>
+                            </tr>
+                        <?php
+                        } ?>
+                    </tbody>
+                </table>
+
+            </section>
+        </div>
+    </div>
+
+</div>                            </div>
+                        </div>
+                    </div>
+                  </section>
+            </div>
+        </div>
+        <style>
+             .tabs-container {
+                text-align: center;
+            }
+             .tabs {
+                display: flex;
+                justify-content: space-between;
+                /* Distribute tabs evenly across the row */
+                max-width: 500px;                /* Adjust this value based on your layout */
+                margin: 0 auto;
+                /* Center the tabs horizontally */
+            }
+
+            .content-container {
+                clear: both;
+                /* Clear the floated tabs to ensure content starts in a new line */
+            }
+
+            .tab {
+                flex: 1;
+                /* Each tab takes equal space */
+                cursor: pointer;
+                padding: 10px;
+                border: 1px solid #ccc;
+                text-align: center;
+/* Center the text within each tab */
+border: 1px solid transparent; /* Add a transparent border initially */
+    border-bottom: 1px solid #ccc; /* Set only the bottom border */    
+    max-height: 2em; /* Set a maximum height for one line of text */
+    overflow: hidden;
+    white-space: nowrap; /* Prevent text from wrapping */        }
+
+
+            .tab-content {
+                display: none;
+            }
+
+            .tab-content.active {
+                display: block;
+                clear: both;
+                /* Clear the floated tabs to display in a new row */
+            }
+        </style>
+        <script>
+          function openTab(tabName) {
+    var tabs = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(function (tab) {
+        tab.classList.remove('active');
+    });
+
+    document.getElementById(tabName).classList.add('active');
+
+    var tabButtons = document.querySelectorAll('.tab');
+    tabButtons.forEach(function (tabButton) {
+        if (tabButton.getAttribute('onclick') === 'openTab(\'' + tabName + '\')') {
+            tabButton.classList.add('active');
+        } else {
+            tabButton.classList.remove('active');
+        }
+    });
+}
+document.addEventListener("DOMContentLoaded", function() {
+    // Trigger the openTab function with the default tab name
+    openTab('tab1');
+});
+
+        </script>
